@@ -28,7 +28,7 @@ const BusinessPanel = ({ dispatch, business, ticket, match, auth }) => {
     );
     dispatch(get_business(businessID));
     dispatch(get_business_dashboard(businessID));
-    dispatch(get_tickets(businessID));
+    dispatch(get_tickets(businessID, auth.user.id));
   }, []);
 
   const handleEditBusiness = ({

@@ -35,14 +35,6 @@ const AllBusinessesPage = ({ dispatch, auth, business, match, history }) => {
   };
   return (
     <div style={{ padding: "2em 1em" }}>
-      <AddBusinessModal
-        open={open}
-        setOpen={setOpen}
-        onSubmit={handleAddBusiness}
-      />
-      <Button type="primary" onClick={() => setOpen(true)}>
-        اضافه کردن کسب و کار
-      </Button>
       <Row style={{ marginTop: "2em" }} gutter={24}>
         {business.getBusinessesStatus === "loaded" &&
           business.businesses.map((business, index) => (

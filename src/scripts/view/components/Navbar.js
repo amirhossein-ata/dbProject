@@ -8,12 +8,19 @@ export default (props) => {
   const [loginType, setLoginType] = useState("login");
   const [showModal, setShowModal] = useState(false);
   const [username, setUsername] = useState("");
+  const [usernameError, setUsernameError] = useState(false);
   const [firstName, setFirstName] = useState("");
+  const [firstNameError, setFirstNameError] = useState(false);
   const [lastName, setLastName] = useState("");
+  const [lastNameError, setLastNameError] = useState(false);
   const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
   const [email, setEmail] = useState("");
+  const [emailError, setEmailError] = useState(false);
   const [nationalCode, setNationalCode] = useState("");
+  const [nationalCodeError, setNationalCodeError] = useState(false);
   const [phoneNumber, setPhoneNumber] = useState("");
+  const [phoneNumberError, setPhoneNumberError] = useState(false);
   const { auth, dispatch } = props;
 
   const handleChange = (e) => {
@@ -21,45 +28,111 @@ export default (props) => {
     switch (name) {
       case "username":
         setUsername(value);
+        setUsernameError(false);
         break;
       case "firstName":
         setFirstName(value);
+        setFirstNameError(false);
         break;
       case "lastName":
         setLastName(value);
+        setLastNameError(false);
         break;
       case "password":
         setPassword(value);
+        setPasswordError(false);
         break;
       case "email":
         setEmail(value);
+        setEmailError(false);
         break;
       case "nationalCode":
         setNationalCode(value);
+        setNationalCodeError(false);
         break;
       case "phoneNumber":
         setPhoneNumber(value);
+        setPhoneNumberError(false);
         break;
 
       default:
         break;
     }
   };
+  const clearForms = () => {
+    setUsername("");
+    setUsernameError(false);
+    setFirstName("");
+    setFirstNameError(false);
+    setLastName("");
+    setLastNameError(false);
+    setPassword("");
+    setPasswordError(false);
+    setEmail("");
+    setEmailError(false);
+    setNationalCode("");
+    setNationalCodeError(false);
+    setPhoneNumber("");
+    setPhoneNumberError(false);
+  };
   const submit = () => {
     if (loginType === "login") {
-      dispatch(loginRequest({ username, password }));
+      if (username.length === 0) {
+        setUsernameError(true);
+      }
+      if (password.length === 0) {
+        setPasswordError(true);
+      }
+      if (username.length !== 0 && password.length !== 0) {
+        dispatch(loginRequest({ username, password }));
+        setShowModal(false);
+        clearForms();
+      }
     } else {
-      dispatch(
-        signupRequest({
-          username,
-          firstName,
-          lastName,
-          password,
-          email,
-          nationalCode,
-          phoneNumber,
-        })
-      );
+      if (username.length === 0) {
+        setUsernameError(true);
+      }
+      if (password.length === 0) {
+        setPasswordError(true);
+      }
+      if (firstName.length === 0) {
+        setFirstNameError(true);
+      }
+      if (lastName.length === 0) {
+        setLastNameError(true);
+      }
+      if (email.length === 0) {
+        setEmailError(true);
+      }
+      if (nationalCode.length === 0) {
+        setNationalCodeError(true);
+      }
+      if (phoneNumber.length === 0) {
+        setPhoneNumberError(true);
+      }
+      if (
+        username.length !== 0 &&
+        password.length !== 0 &&
+        firstName.length !== 0 &&
+        lastName.length !== 0 &&
+        email.length !== 0 &&
+        nationalCode.length !== 0 &&
+        phoneNumber.length !== 0
+      ) {
+        dispatch(
+          signupRequest({
+            username,
+            firstName,
+            lastName,
+            password,
+            email,
+            nationalCode,
+            phoneNumber,
+          })
+        );
+        setShowModal(false);
+        clearForms();
+      }
     }
   };
   return (
@@ -72,10 +145,10 @@ export default (props) => {
         cancelText="انصراف"
         onOk={() => {
           submit();
-          setShowModal(false);
         }}
         onCancel={() => {
           setShowModal(false);
+          clearForms();
         }}
         open={showModal}
         onClose={() => setShowModal(false)}
@@ -94,7 +167,11 @@ export default (props) => {
                 value={username}
                 onChange={handleChange}
               />
+              {usernameError && (
+                <p style={{ color: "#d35858" }}> این فیلد نباید خالی باشد</p>
+              )}
             </Form.Item>
+
             <Form.Item label="نام">
               <Input
                 id="firstName"
@@ -102,6 +179,9 @@ export default (props) => {
                 value={firstName}
                 onChange={handleChange}
               />
+              {firstNameError && (
+                <p style={{ color: "#d35858" }}> این فیلد نباید خالی باشد</p>
+              )}
             </Form.Item>
             <Form.Item label="نام خانوادگی">
               <Input
@@ -110,6 +190,9 @@ export default (props) => {
                 value={lastName}
                 onChange={handleChange}
               />
+              {lastNameError && (
+                <p style={{ color: "#d35858" }}> این فیلد نباید خالی باشد</p>
+              )}
             </Form.Item>
             <Form.Item label="رمز عبور">
               <Input
@@ -119,6 +202,9 @@ export default (props) => {
                 value={password}
                 onChange={handleChange}
               />
+              {passwordError && (
+                <p style={{ color: "#d35858" }}> این فیلد نباید خالی باشد</p>
+              )}
             </Form.Item>
             <Form.Item label="ایمیل">
               <Input
@@ -127,6 +213,9 @@ export default (props) => {
                 value={email}
                 onChange={handleChange}
               />
+              {emailError && (
+                <p style={{ color: "#d35858" }}> این فیلد نباید خالی باشد</p>
+              )}
             </Form.Item>
             <Form.Item label="کد ملی">
               <Input
@@ -135,6 +224,9 @@ export default (props) => {
                 value={nationalCode}
                 onChange={handleChange}
               />
+              {nationalCodeError && (
+                <p style={{ color: "#d35858" }}> این فیلد نباید خالی باشد</p>
+              )}
             </Form.Item>
             <Form.Item label="شماره تلفن">
               <Input
@@ -143,6 +235,9 @@ export default (props) => {
                 value={phoneNumber}
                 onChange={handleChange}
               />
+              {phoneNumberError && (
+                <p style={{ color: "#d35858" }}> این فیلد نباید خالی باشد</p>
+              )}
             </Form.Item>
             <Form.Item>
               <Button type="link" onClick={() => setLoginType("login")}>
@@ -164,6 +259,9 @@ export default (props) => {
                 value={username}
                 onChange={handleChange}
               />
+              {usernameError && (
+                <p style={{ color: "#d35858" }}> این فیلد نباید خالی باشد</p>
+              )}
             </Form.Item>
 
             <Form.Item label="رمز عبور">
@@ -174,6 +272,9 @@ export default (props) => {
                 value={password}
                 onChange={handleChange}
               />
+              {passwordError && (
+                <p style={{ color: "#d35858" }}> این فیلد نباید خالی باشد</p>
+              )}
             </Form.Item>
             <Form.Item>
               <Button type="link" onClick={() => setLoginType("signup")}>

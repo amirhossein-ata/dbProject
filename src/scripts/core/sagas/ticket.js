@@ -51,7 +51,7 @@ export function* addMessageToTicket({ payload }) {
     payload.successCallback();
     yield put({
       type: ActionTypes.GET_BUSINESS_TICKETS_REQUEST,
-      payload: { businessId: payload.businessId },
+      payload: { userId: payload.userId, businessId: payload.businessId },
     });
   } catch (err) {
     console.log(err);
@@ -63,7 +63,7 @@ export function* getBusinessTickets({ payload }) {
   try {
     const response = yield call(
       request,
-      `/api/ticket/search/?businessId=${payload.businessId}`,
+      `/api/ticket/search/?userId=${payload.userId}&businessId=${payload.businessId}`,
       {
         payload: {},
         method: "GET",

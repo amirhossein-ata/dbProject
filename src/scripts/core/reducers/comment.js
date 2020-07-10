@@ -4,6 +4,7 @@ import immutable from "immutability-helper";
 const initialState = {
   commentsLoadStatus: "idle",
   comments: [],
+  page: 0,
 };
 
 export default (state = initialState, action) => {

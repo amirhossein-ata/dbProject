@@ -174,15 +174,16 @@ export default ({ dispatch, services, businessID, auth, isBusinessPanel }) => {
   const [open, setOpen] = useState(false);
   return (
     <React.Fragment>
-      <AddServiceModal
-        open={open}
-        setOpen={setOpen}
-        dispatch={dispatch}
-        businessID={businessID}
-        userID={auth.user.id}
-        closeModal={() => setOpen(false)}
-      />
-
+      {isBusinessPanel && (
+        <AddServiceModal
+          open={open}
+          setOpen={setOpen}
+          dispatch={dispatch}
+          businessID={businessID}
+          userID={auth.user.id}
+          closeModal={() => setOpen(false)}
+        />
+      )}
       <Row container justify="space-between">
         <Col>
           <h2>سرویس‌ها</h2>

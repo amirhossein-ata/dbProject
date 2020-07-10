@@ -33,7 +33,7 @@ const Ticket = ({ dispatch, ticket, userId }) => {
           <Col span={12}>
             <h2>لیست تیکت‌ها</h2>
             <List
-              style={{ height: "700px", overflowY: "auto" }}
+              style={{ maxHeight: "700px", overflowY: "auto" }}
               itemLayout="horizontal"
               dataSource={ticket.tickets}
               renderItem={(item) => (
@@ -59,7 +59,7 @@ const Ticket = ({ dispatch, ticket, userId }) => {
               <React.Fragment>
                 <h2>لیست پیام‌های تیکت</h2>
                 <List
-                  style={{ height: "338px", overflowY: "auto" }}
+                  style={{ maxHeight: "338px", overflowY: "auto" }}
                   itemLayout="horizontal"
                   dataSource={ticket.selectedTicket.messages}
                   renderItem={(item) => (

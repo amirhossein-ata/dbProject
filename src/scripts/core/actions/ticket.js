@@ -19,9 +19,9 @@ export const add_ticket = (
   },
 });
 
-export const get_tickets = (businessId) => ({
+export const get_tickets = (businessId, userId) => ({
   type: ActionTypes.GET_BUSINESS_TICKETS_REQUEST,
-  payload: { businessId },
+  payload: { businessId, userId },
 });
 
 export const add_message_to_ticket = (

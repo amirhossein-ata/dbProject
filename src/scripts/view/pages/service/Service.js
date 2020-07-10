@@ -12,6 +12,7 @@ import {
   List,
   Rate,
   Avatar,
+  Pagination,
 } from "antd";
 import { SettingOutlined } from "@ant-design/icons";
 import { add_reserve } from "../../../core/actions/reserves";
@@ -43,7 +44,7 @@ const ServicePage = ({ dispatch, match, auth, service, comment }) => {
     dispatch(
       get_service(match.params.serviceID, firstOfWeek.format("YYYY-MM-DD"))
     );
-    dispatch(get_comments(match.params.serviceID));
+    dispatch(get_comments(match.params.serviceID, 1));
     // dispatch(get_reserves(parseInt(match.params.serviceID), auth.token));
     return () => {
       dispatch(setServiceLoadStatus("idle"));
@@ -131,7 +132,7 @@ const ServicePage = ({ dispatch, match, auth, service, comment }) => {
                 date: date.format("YYYY-MM-DD"),
                 service_id: service.serviceDetail.service.id,
               },
-              auth.user.id
+              auth.user === null ? null : auth.user.id
             );
           }}
           disabled={time.is_reserved}
@@ -166,9 +167,19 @@ const ServicePage = ({ dispatch, match, auth, service, comment }) => {
             open={showAddReserveModal}
             onClose={() => setShowAddReserveModal(false)}
           >
-            {reserveStep === 1 && <p>آیا از رزرو این سانس اطمینان دارید؟</p>}
-            {reserveStep === 2 && (
-              <p>مبلغ {service.serviceDetail.service.fee} تومان پرداخت شود؟</p>
+            {auth.user === null ? (
+              <p>لطفا ابتدا وارد حساب کاربری خود شوید.</p>
+            ) : (
+              <React.Fragment>
+                {reserveStep === 1 && (
+                  <p>آیا از رزرو این سانس اطمینان دارید؟</p>
+                )}
+                {reserveStep === 2 && (
+                  <p>
+                    مبلغ {service.serviceDetail.service.fee} تومان پرداخت شود؟
+                  </p>
+                )}
+              </React.Fragment>
             )}
           </Modal>
           <Row justify="center">
