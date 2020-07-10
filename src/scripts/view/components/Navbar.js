@@ -294,7 +294,19 @@ export default (props) => {
         </Menu.Item>
         <span style={{ float: "left", marginLeft: "2em" }}>
           {auth.isAuthenticated ? (
-            <Link to="/profile">صفحه پروفایل</Link>
+            <div>
+              <Link to="/profile" style={{ color: "black", marginLeft: "2em" }}>
+                صفحه پروفایل
+              </Link>
+              <span
+                onClick={() => {
+                  localStorage.clear();
+                  window.location.href = "/";
+                }}
+              >
+                خروج از حساب
+              </span>
+            </div>
           ) : (
             <Button
               onClick={() => setShowModal(true)}
