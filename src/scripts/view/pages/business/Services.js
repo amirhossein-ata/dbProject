@@ -40,6 +40,19 @@ const AddServiceModal = ({
       setCancellationRange(e.target.value);
     }
   };
+  const clearForm = () => {
+    setStep(1);
+    setName("");
+    setNameError("");
+    setDescription("");
+    setAddress("");
+    setStartDay("");
+    setEndDay("");
+    setPrice("");
+    setCancellationRange("");
+    setStartDayError("");
+    setEndDayError("");
+  };
 
   const firstStepSubmit = () => {
     if (name === "") {
@@ -63,6 +76,7 @@ const AddServiceModal = ({
       setEndDayError("");
     }
     if (start_day !== "" && end_day !== "") {
+      clearForm();
       dispatch(
         add_service(
           {
@@ -161,6 +175,7 @@ const AddServiceModal = ({
       footer={[<div style={{ height: "0" }}></div>]}
       onCancel={() => {
         setOpen(false);
+        clearForm();
       }}
       open={open}
       onClose={() => setOpen(false)}
@@ -172,6 +187,8 @@ const AddServiceModal = ({
 
 export default ({ dispatch, services, businessID, auth, isBusinessPanel }) => {
   const [open, setOpen] = useState(false);
+  const [searchKeyword, setSearchKeyword] = useState("");
+  console.log(searchKeyword);
   return (
     <React.Fragment>
       {isBusinessPanel && (
@@ -189,33 +206,44 @@ export default ({ dispatch, services, businessID, auth, isBusinessPanel }) => {
           <h2>سرویس‌ها</h2>
         </Col>
         <Col>
-          {isBusinessPanel && (
+          {isBusinessPanel ? (
             <Button type="primary" onClick={() => setOpen(true)}>
               اضافه کردن سرویس
             </Button>
+          ) : (
+            <Input
+              placeholder="جستجو"
+              value={searchKeyword}
+              onChange={(e) => {
+                setSearchKeyword(e.target.value);
+              }}
+              allowClear
+            />
           )}
         </Col>
       </Row>
       <Row style={{ marginTop: "2em" }} gutter={24}>
-        {services.map((service, index) => (
-          <Col span={8} key={index} style={{ marginBottom: "1em" }}>
-            <Card>
-              <Card.Meta
-                title={service.name}
-                description={service.description}
-              />
-              <Button type="primary" style={{ marginTop: "2em" }}>
-                <Link
-                  to={`/${isBusinessPanel ? "service-panel" : "service"}/${
-                    service.id
-                  }/business/${businessID}`}
-                >
-                  مشاهده سرویس
-                </Link>
-              </Button>
-            </Card>
-          </Col>
-        ))}
+        {services
+          .filter((i) => i.name.includes(searchKeyword))
+          .map((service, index) => (
+            <Col span={8} key={index} style={{ marginBottom: "1em" }}>
+              <Card>
+                <Card.Meta
+                  title={service.name}
+                  description={service.description}
+                />
+                <Button type="primary" style={{ marginTop: "2em" }}>
+                  <Link
+                    to={`/${isBusinessPanel ? "service-panel" : "service"}/${
+                      service.id
+                    }/business/${businessID}`}
+                  >
+                    مشاهده سرویس
+                  </Link>
+                </Button>
+              </Card>
+            </Col>
+          ))}
       </Row>
     </React.Fragment>
   );
